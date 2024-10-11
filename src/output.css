@@ -602,12 +602,22 @@ video {
   width: 8rem;
 }
 
+.w-\[180px\] {
+  width: 180px;
+}
+
 .max-w-\[400px\] {
   max-width: 400px;
 }
 
 .flex-grow {
   flex-grow: 1;
+}
+
+.scale-90 {
+  --tw-scale-x: .9;
+  --tw-scale-y: .9;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .flex-col {
@@ -679,6 +689,21 @@ video {
   padding-right: 1.25rem;
 }
 
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
 .ps-3 {
   padding-inline-start: 0.75rem;
 }
@@ -720,6 +745,27 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.line-through {
+  text-decoration-line: line-through;
+}
+
+.accent-stone-950 {
+  accent-color: #0c0a09;
+}
+
+.opacity-20 {
+  opacity: 0.2;
+}
+
+.blur {
+  --tw-blur: blur(8px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.duration-200 {
+  transition-duration: 200ms;
+}
+
 .last\:block:last-child {
   display: block;
 }
@@ -727,4 +773,8 @@ video {
 .focus-visible\:outline-none:focus-visible {
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+
+.disabled\:opacity-20:disabled {
+  opacity: 0.2;
 }
