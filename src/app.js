@@ -1,33 +1,29 @@
-// selectors
+// SELECTORS
 const taskInput = document.querySelector("#taskInput");
 const addTaskBtn = document.querySelector("#addTaskBtn");
 const listGroup = document.querySelector("#listGroup");
 const taskTotal = document.querySelector("#taskTotal");
 const doneTaskTotal = document.querySelector("#doneTaskTotal");
+// let count = 1;
 
-
-// processes
-const addList = () => {
-    listGroup.append(createNewList(taskInput.value)); // mount list to list group
-    taskInput.value = null;
-    updateTaskTotal();
-}
-
-// count list and update
+// ACTIONS (BUSINESS LOGIC)
 const updateTaskTotal = () => {
+    // count list and update
     const lists = document.querySelectorAll(".list");
     taskTotal.innerText = lists.length;
 }
 
-// count done list and update
 const updateDoneTaskTotal = () => {
+    // count done list and update
     const lists = document.querySelectorAll(".list input:checked");
     doneTaskTotal.innerText = lists.length;
 }
 
-// create new list
 const createNewList = (currentTask) => {
+    // create new list
     const list = document.createElement("div");
+    // list.id = "list" + count++;
+    list.id = "list" + Date.now();
     list.classList.add("list");
 
     list.innerHTML = `
@@ -37,7 +33,7 @@ const createNewList = (currentTask) => {
                 <p class="font-mono list-task">${currentTask}</p>
             </div>
             <div class="control">
-                <button class="list-edit-btn border border-stone-950 p-2 disabled:opacity-20">
+                <button class="list-edit-btn border border-stone-950 p-2 disabled:opacity-20 active:bg-stone-400 active:scale-90 duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="1.5" stroke="currentColor" class="size-4 pointer-events-none">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -45,7 +41,7 @@ const createNewList = (currentTask) => {
                     </svg>
 
                 </button>
-                <button class="list-del-btn border border-stone-950 p-2">
+                <button class="list-del-btn border border-stone-950 p-2 active:bg-stone-400 active:scale-90 duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="1.5" stroke="currentColor" class="size-4 pointer-events-none">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -57,66 +53,96 @@ const createNewList = (currentTask) => {
     `;
 
     return list;
-};
+}
 
+const deleteList = (listId) => {
+    const currentList = document.querySelector(`#${listId}`);
+    if (window.confirm("Are you sure to delete?")) {
+        currentList.remove();
+    }
+    updateTaskTotal();
+    updateDoneTaskTotal();
+}
+
+const editList = (listId) => {
+    const currentList = document.querySelector(`#${listId}`);
+    const listDoneCheck = currentList.querySelector(".list-done-check");
+    const listTask = currentList.querySelector(".list-task");
+    const listEditBtn = currentList.querySelector(".list-edit-btn");
+    listEditBtn.setAttribute("disabled", true);
+    listDoneCheck.setAttribute("disabled", true);
+    const currentTask = listTask.innerText;
+    const newTaskInput = document.createElement("input");
+    newTaskInput.className = "border border-stone-950 px-2 py-1 font-mono w-[180px] focus-visible:outline-none";
+    newTaskInput.value = currentTask;
+    listTask.after(newTaskInput);
+    newTaskInput.focus();
+    listTask.classList.add("hidden");
+
+    newTaskInput.addEventListener("blur", () => {
+        listEditBtn.removeAttribute("disabled");
+        listDoneCheck.removeAttribute("disabled");
+        listTask.innerText = newTaskInput.value;
+        listTask.classList.remove("hidden");
+        newTaskInput.remove();
+    })
+}
+
+const doneList = (listId) => {
+    const currentList = document.querySelector(`#${listId}`);
+    const listDoneCheck = currentList.querySelector(".list-done-check");
+    const listTask = currentList.querySelector(".list-task");
+    const listDelBtn = currentList.querySelector(".list-del-btn");
+    const listEditBtn = currentList.querySelector(".list-edit-btn");
+
+    updateDoneTaskTotal();
+    listTask.classList.toggle("line-through");
+    currentList.classList.toggle("duration-200");
+    currentList.classList.toggle("opacity-20");
+    currentList.classList.toggle("scale-90");
+    if (listDoneCheck.checked) {
+        listEditBtn.setAttribute("disabled", true);
+    } else {
+        listEditBtn.removeAttribute("disabled");
+    }
+
+    updateDoneTaskTotal();
+
+}
+
+const addList = (text) => {
+    listGroup.append(createNewList(text)); // mount list to list group
+    taskInput.value = null;
+    updateTaskTotal();
+}
+
+// HANDLERS
 const listGroupHandler = (event) => {
     const list = event.target.closest(".list");
     if (event.target.classList.contains("list-del-btn")) {
-        console.log("U Delete");
-        if (window.confirm("Are you sure to delete?")) {
-            list.remove();
-        }
-        updateTaskTotal();
-        updateDoneTaskTotal();
+        deleteList(event.target.closest(".list").id);
     };
 
     if (event.target.classList.contains("list-edit-btn")) {
-        const listDoneCheck = list.querySelector(".list-done-check");
-        const listTask = list.querySelector(".list-task");
-        const listEditBtn = list.querySelector(".list-edit-btn");
-        console.log("U Edit");
-        listEditBtn.setAttribute("disabled", true);
-        listDoneCheck.setAttribute("disabled", true);
-        const currentTask = listTask.innerText;
-        const newTaskInput = document.createElement("input");
-        newTaskInput.className = "border border-stone-950 px-2 py-1 font-mono w-[180px] focus-visible:outline-none";
-        newTaskInput.value = currentTask;
-        listTask.after(newTaskInput);
-        newTaskInput.focus();
-        listTask.classList.add("hidden");
-
-        newTaskInput.addEventListener("blur", () => {
-            listEditBtn.removeAttribute("disabled");
-            listDoneCheck.removeAttribute("disabled");
-            listTask.innerText = newTaskInput.value;
-            listTask.classList.remove("hidden");
-            newTaskInput.remove();
-        })
+        editList(event.target.closest(".list").id);
     };
 
     if (event.target.classList.contains("list-done-check")) {
-        console.log("U Check");
-        const listDoneCheck = list.querySelector(".list-done-check");
-        const listTask = list.querySelector(".list-task");
-        const listDelBtn = list.querySelector(".list-del-btn");
-        const listEditBtn = list.querySelector(".list-edit-btn");
-
-        updateDoneTaskTotal();
-        listTask.classList.toggle("line-through");
-        list.classList.toggle("duration-200");
-        list.classList.toggle("opacity-20");
-        list.classList.toggle("scale-90");
-        if (listDoneCheck.checked) {
-            listEditBtn.setAttribute("disabled", true);
-        } else {
-            listEditBtn.removeAttribute("disabled");
-        }
-
-        updateDoneTaskTotal();
-
+        doneList(event.target.closest(".list").id);
     };
 }
 
-// events
-addTaskBtn.addEventListener("click", addList);
+const addTaskBtnHandler = () => {
+    addList(taskInput.value);
+}
+
+const taskInputHandler = (event) => {
+    if (event.key === "Enter") {
+        addList(taskInput.value);
+    }
+}
+
+// LISTENERS
+addTaskBtn.addEventListener("click", addTaskBtnHandler);
+taskInput.addEventListener("keyup", taskInputHandler)
 listGroup.addEventListener("click", listGroupHandler);
