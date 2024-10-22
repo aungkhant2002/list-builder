@@ -4,7 +4,6 @@ const addTaskBtn = document.querySelector("#addTaskBtn");
 const listGroup = document.querySelector("#listGroup");
 const taskTotal = document.querySelector("#taskTotal");
 const doneTaskTotal = document.querySelector("#doneTaskTotal");
-// let count = 1;
 
 // ACTIONS (BUSINESS LOGIC)
 const updateTaskTotal = () => {
@@ -22,12 +21,11 @@ const updateDoneTaskTotal = () => {
 const createNewList = (currentTask) => {
     // create new list
     const list = document.createElement("div");
-    // list.id = "list" + count++;
     list.id = "list" + Date.now();
-    list.classList.add("list", "slide-in-down");
+    list.classList.add("list");
 
     list.innerHTML = `
-        <div class="mb-3 bg-white border border-stone-950 p-3 flex justify-between">
+        <div class="mb-3 bg-white animate__animated animate__zoomIn border border-stone-950 p-3 flex justify-between">
             <div class="flex gap-3 justify-center items-center">
                 <input type="checkbox" class="list-done-check accent-stone-950">
                 <p class="font-mono list-task">${currentTask}</p>
@@ -58,10 +56,13 @@ const createNewList = (currentTask) => {
 const deleteList = (listId) => {
     const currentList = document.querySelector(`#${listId}`);
     if (window.confirm("Are you sure to delete?")) {
-        currentList.remove();
+        currentList.classList.add("animate__animated", "animate__hinge");
+        currentList.addEventListener("animationend", () => {
+            currentList.remove();
+            updateTaskTotal();
+            updateDoneTaskTotal();
+        })
     }
-    updateTaskTotal();
-    updateDoneTaskTotal();
 }
 
 const editList = (listId) => {

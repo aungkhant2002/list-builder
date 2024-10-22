@@ -4,17 +4,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.slide-in-down {
-    animation-name: slide-in-down;
-    animation-duration: 500ms;
-}
-
-@keyframes slide-in-down {
-    from {
-        transform: translateY(-30px);
-    } 
-    to {
-        transform: translateY(0px);
-    }
-}
