@@ -24,10 +24,10 @@ const createNewList = (currentTask) => {
     const list = document.createElement("div");
     // list.id = "list" + count++;
     list.id = "list" + Date.now();
-    list.classList.add("list");
+    list.classList.add("list", "slide-in-down");
 
     list.innerHTML = `
-        <div class="mb-3 border border-stone-950 p-3 flex justify-between">
+        <div class="mb-3 bg-white border border-stone-950 p-3 flex justify-between">
             <div class="flex gap-3 justify-center items-center">
                 <input type="checkbox" class="list-done-check accent-stone-950">
                 <p class="font-mono list-task">${currentTask}</p>
@@ -133,7 +133,11 @@ const listGroupHandler = (event) => {
 }
 
 const addTaskBtnHandler = () => {
-    addList(taskInput.value);
+    if(taskInput.value.trim()) {
+        addList(taskInput.value) 
+    } else {
+        alert("You must input a task");
+    }
 }
 
 const taskInputHandler = (event) => {
