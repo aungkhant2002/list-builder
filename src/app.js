@@ -4,6 +4,8 @@ const addTaskBtn = document.querySelector("#addTaskBtn");
 const listGroup = document.querySelector("#listGroup");
 const taskTotal = document.querySelector("#taskTotal");
 const doneTaskTotal = document.querySelector("#doneTaskTotal");
+const deleteAll = document.querySelector("#deleteAll");
+const doneAll = document.querySelector("#doneAll");
 
 // ACTIONS (BUSINESS LOGIC)
 const updateTaskTotal = () => {
@@ -134,8 +136,8 @@ const listGroupHandler = (event) => {
 }
 
 const addTaskBtnHandler = () => {
-    if(taskInput.value.trim()) {
-        addList(taskInput.value) 
+    if (taskInput.value.trim()) {
+        addList(taskInput.value)
     } else {
         alert("You must input a task");
     }
@@ -143,11 +145,34 @@ const addTaskBtnHandler = () => {
 
 const taskInputHandler = (event) => {
     if (event.key === "Enter") {
-        addList(taskInput.value);
+        if (taskInput.value.trim()) {
+            addList(taskInput.value);
+        } else {
+            alert("You must input a task");
+        }
+    }
+}
+
+const deleteAllHandler = () => {
+    if (window.confirm("Are you sure to delete all lists?")) {
+        const allLists = listGroup.querySelectorAll(".list");
+        allLists.forEach((list) => list.remove())
+    }
+}
+
+const doneAllHandler = () => {
+    if(window.confirm("Are you sure to done all lists")) {
+        const allLists = document.querySelectorAll(".list");
+        allLists.forEach((list) => {
+            list.querySelector(".list-done-check").checked = true;
+            doneList(list.id); 
+        })
     }
 }
 
 // LISTENERS
 addTaskBtn.addEventListener("click", addTaskBtnHandler);
-taskInput.addEventListener("keyup", taskInputHandler)
+taskInput.addEventListener("keyup", taskInputHandler);
 listGroup.addEventListener("click", listGroupHandler);
+deleteAll.addEventListener("click", deleteAllHandler);
+doneAll.addEventListener("click", doneAllHandler);
