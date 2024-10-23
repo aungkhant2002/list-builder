@@ -1,34 +1,23 @@
-// SELECTORS
-const taskInput = document.querySelector("#taskInput");
-const addTaskBtn = document.querySelector("#addTaskBtn");
-const listGroup = document.querySelector("#listGroup");
-const taskTotal = document.querySelector("#taskTotal");
-const doneTaskTotal = document.querySelector("#doneTaskTotal");
-const deleteAll = document.querySelector("#deleteAll");
-const doneAll = document.querySelector("#doneAll");
-const listTemplate = document.querySelector("#listTemplate");
+import { doneTaskTotal, listGroup, listTemplate, taskInput, taskTotal } from "./selectors.js";
 
-// ACTIONS (BUSINESS LOGIC)
-const updateTaskTotal = () => {
-    // count list and update
+export const updateTaskTotal = () => {
     const lists = document.querySelectorAll(".list");
     taskTotal.innerText = lists.length;
 }
 
-const updateDoneTaskTotal = () => {
-    // count done list and update
+export const updateDoneTaskTotal = () => {
     const lists = document.querySelectorAll(".list input:checked");
     doneTaskTotal.innerText = lists.length;
 }
 
-const createNewList = (currentTask) => {
+export const createNewList = (currentTask) => {
     const list = listTemplate.content.cloneNode(true);
     list.querySelector(".list").id = "list" + Date.now();
     list.querySelector(".list-task").innerText = currentTask;
     return list;
 }
 
-const deleteList = (listId) => {
+export const deleteList = (listId) => {
     const currentList = document.querySelector(`#${listId}`);
     if (window.confirm("Are you sure to delete?")) {
         currentList.classList.add("animate__animated", "animate__hinge");
@@ -40,7 +29,7 @@ const deleteList = (listId) => {
     }
 }
 
-const editList = (listId) => {
+export const editList = (listId) => {
     const currentList = document.querySelector(`#${listId}`);
     const listDoneCheck = currentList.querySelector(".list-done-check");
     const listTask = currentList.querySelector(".list-task");
@@ -64,7 +53,7 @@ const editList = (listId) => {
     })
 }
 
-const doneList = (listId) => {
+export const doneList = (listId) => {
     const currentList = document.querySelector(`#${listId}`);
     const listDoneCheck = currentList.querySelector(".list-done-check");
     const listTask = currentList.querySelector(".list-task");
@@ -86,66 +75,8 @@ const doneList = (listId) => {
 
 }
 
-const addList = (text) => {
-    listGroup.append(createNewList(text)); // mount list to list group
+export const addList = (text) => {
+    listGroup.append(createNewList(text));
     taskInput.value = null;
     updateTaskTotal();
 }
-
-// HANDLERS
-const listGroupHandler = (event) => {
-    const list = event.target.closest(".list");
-    if (event.target.classList.contains("list-del-btn")) {
-        deleteList(event.target.closest(".list").id);
-    };
-
-    if (event.target.classList.contains("list-edit-btn")) {
-        editList(event.target.closest(".list").id);
-    };
-
-    if (event.target.classList.contains("list-done-check")) {
-        doneList(event.target.closest(".list").id);
-    };
-}
-
-const addTaskBtnHandler = () => {
-    if (taskInput.value.trim()) {
-        addList(taskInput.value)
-    } else {
-        alert("You must input a task");
-    }
-}
-
-const taskInputHandler = (event) => {
-    if (event.key === "Enter") {
-        if (taskInput.value.trim()) {
-            addList(taskInput.value);
-        } else {
-            alert("You must input a task");
-        }
-    }
-}
-
-const deleteAllHandler = () => {
-    if (window.confirm("Are you sure to delete all lists?")) {
-        const allLists = listGroup.querySelectorAll(".list");
-        allLists.forEach((list) => list.remove())
-    }
-}
-
-const doneAllHandler = () => {
-    if (window.confirm("Are you sure to done all lists")) {
-        const allLists = document.querySelectorAll(".list");
-        allLists.forEach((list) => {
-            list.querySelector(".list-done-check").checked = true;
-            doneList(list.id);
-        })
-    }
-}
-
-// LISTENERS
-addTaskBtn.addEventListener("click", addTaskBtnHandler);
-taskInput.addEventListener("keyup", taskInputHandler);
-listGroup.addEventListener("click", listGroupHandler);
-deleteAll.addEventListener("click", deleteAllHandler);
-doneAll.addEventListener("click", doneAllHandler);

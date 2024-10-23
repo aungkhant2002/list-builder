@@ -2670,12 +2670,12 @@ video {
   gap:0.25rem
 }
 
-.gap-3{
-  gap:0.75rem
-}
-
 .gap-2{
   gap:0.5rem
+}
+
+.gap-3{
+  gap:0.75rem
 }
 
 .rounded-full{
@@ -2696,6 +2696,11 @@ video {
   background-color:rgb(231 229 228 / var(--tw-bg-opacity))
 }
 
+.bg-stone-400{
+  --tw-bg-opacity:1;
+  background-color:rgb(168 162 158 / var(--tw-bg-opacity))
+}
+
 .bg-stone-950{
   --tw-bg-opacity:1;
   background-color:rgb(12 10 9 / var(--tw-bg-opacity))
@@ -2704,11 +2709,6 @@ video {
 .bg-white{
   --tw-bg-opacity:1;
   background-color:rgb(255 255 255 / var(--tw-bg-opacity))
-}
-
-.bg-stone-400{
-  --tw-bg-opacity:1;
-  background-color:rgb(168 162 158 / var(--tw-bg-opacity))
 }
 
 .p-10{
@@ -2728,6 +2728,11 @@ video {
   padding-right:0.5rem
 }
 
+.px-4{
+  padding-left:1rem;
+  padding-right:1rem
+}
+
 .px-5{
   padding-left:1.25rem;
   padding-right:1.25rem
@@ -2736,11 +2741,6 @@ video {
 .py-1{
   padding-top:0.25rem;
   padding-bottom:0.25rem
-}
-
-.px-4{
-  padding-left:1rem;
-  padding-right:1rem
 }
 
 .py-2{
@@ -2779,6 +2779,11 @@ video {
   font-weight:700
 }
 
+.text-stone-900{
+  --tw-text-opacity:1;
+  color:rgb(28 25 23 / var(--tw-text-opacity))
+}
+
 .text-stone-950{
   --tw-text-opacity:1;
   color:rgb(12 10 9 / var(--tw-text-opacity))
@@ -2787,16 +2792,6 @@ video {
 .text-white{
   --tw-text-opacity:1;
   color:rgb(255 255 255 / var(--tw-text-opacity))
-}
-
-.text-stone-100{
-  --tw-text-opacity:1;
-  color:rgb(245 245 244 / var(--tw-text-opacity))
-}
-
-.text-stone-900{
-  --tw-text-opacity:1;
-  color:rgb(28 25 23 / var(--tw-text-opacity))
 }
 
 .line-through{
