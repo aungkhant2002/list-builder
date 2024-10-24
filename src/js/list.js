@@ -1,5 +1,6 @@
 import { doneTaskTotal, listGroup, listTemplate, taskInput, taskTotal } from "./selectors.js";
 
+let count = 0;
 export const tasks = ["To read book", "Sleep Early", "Wake up Early"];
 
 export const updateTaskTotal = () => {
@@ -14,7 +15,7 @@ export const updateDoneTaskTotal = () => {
 
 export const createNewList = (currentTask) => {
     const list = listTemplate.content.cloneNode(true);
-    list.querySelector(".list").id = "list" + Date.now();
+    list.querySelector(".list").id = "list" + ++count;
     list.querySelector(".list-task").innerText = currentTask;
     return list;
 }
@@ -25,8 +26,6 @@ export const deleteList = (listId) => {
         currentList.classList.add("animate__animated", "animate__hinge");
         currentList.addEventListener("animationend", () => {
             currentList.remove();
-            updateTaskTotal();
-            updateDoneTaskTotal();
         })
     }
 }
@@ -59,7 +58,6 @@ export const doneList = (listId) => {
     const currentList = document.querySelector(`#${listId}`);
     const listDoneCheck = currentList.querySelector(".list-done-check");
     const listTask = currentList.querySelector(".list-task");
-    const listDelBtn = currentList.querySelector(".list-del-btn");
     const listEditBtn = currentList.querySelector(".list-edit-btn");
 
     updateDoneTaskTotal();
@@ -72,13 +70,9 @@ export const doneList = (listId) => {
     } else {
         listEditBtn.removeAttribute("disabled");
     }
-
-    updateDoneTaskTotal();
-
 }
 
 export const addList = (text) => {
     listGroup.append(createNewList(text));
     taskInput.value = null;
-    updateTaskTotal();
 }
