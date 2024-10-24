@@ -1,5 +1,7 @@
 import { doneTaskTotal, listGroup, listTemplate, taskInput, taskTotal } from "./selectors.js";
 
+export const tasks = ["To read book", "Sleep Early", "Wake up Early"];
+
 export const updateTaskTotal = () => {
     const lists = document.querySelectorAll(".list");
     taskTotal.innerText = lists.length;
